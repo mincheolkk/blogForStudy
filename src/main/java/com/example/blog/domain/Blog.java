@@ -1,21 +1,18 @@
 package com.example.blog.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-
-@AllArgsConstructor
-@NoArgsConstructor
+import java.util.ArrayList;
+import java.util.List;
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Data
 @Entity
 public class Blog {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title", length = 20, nullable = false)
@@ -24,8 +21,14 @@ public class Blog {
     @Column(name = "content", length = 1000)
     private String text;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "text")
+    private User user;
+
     public void updateBlog(String title, String text) {
         this.title = title;
         this.text = text;
     }
 }
+
+
